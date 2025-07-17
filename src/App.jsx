@@ -1,20 +1,24 @@
 import React from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Hero from './components/Hero'; // On importe notre nouveau composant
 
 function App() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
       
-      {/* Le contenu principal de la page viendra ici */}
-      <main className="flex-grow container mx-auto px-6 py-8">
-        <h1 className="text-4xl font-bold text-center text-gray-800">
-          Votre Avenir International Commence Ici.
-        </h1>
-        <p className="text-center text-gray-600 mt-4">
-          La plateforme de confiance pour les talents algériens cherchant à travailler au Canada, en France et en Espagne.
-        </p>
+      {/* On remplace le contenu principal par notre composant Hero */}
+      <main className="flex-grow">
+        <Hero />
+        
+        {/* Le reste du contenu de la page d'accueil viendra ici plus tard */}
+        <div className="container mx-auto px-6 py-8">
+           <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+             Les dernières offres d'emploi
+           </h2>
+           {/* Les cartes des offres d'emploi seront ajoutées ici */}
+        </div>
       </main>
 
       <Footer />
