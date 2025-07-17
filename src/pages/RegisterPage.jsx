@@ -1,10 +1,10 @@
 import React from 'react';
+import RegisterForm from '../components/RegisterForm';
 
 const RegisterPage = () => {
   return (
     <div className="container mx-auto py-12">
-      <h1 className="text-3xl font-bold text-center">Page d'Inscription</h1>
-      {/* Le formulaire d'inscription sera ajouté ici */}
+      <RegisterForm />
     </div>
   );
 };
