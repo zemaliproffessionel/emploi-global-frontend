@@ -1,21 +1,28 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Hero from './components/Hero';
-import FeaturedJobs from './components/FeaturedJobs'; // On importe la nouvelle section
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      <Header />
-      
-      <main className="flex-grow">
-        <Hero />
-        <FeaturedJobs /> {/* On ajoute la section des offres à la une */}
-      </main>
+    <Router>
+      <div className="flex flex-col min-h-screen bg-gray-100">
+        <Header />
+        
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Routes>
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
