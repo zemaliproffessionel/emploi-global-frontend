@@ -7,7 +7,8 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import SearchPage from './pages/SearchPage';
-import JobDetailPage from './pages/JobDetailPage'; // On importe la nouvelle page
+import JobDetailPage from './pages/JobDetailPage';
+import ProtectedRoute from './components/ProtectedRoute'; // On importe le gardien
 
 function App() {
   return (
@@ -20,10 +21,27 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
+            
+            {/* On protège aussi le tableau de bord */}
+            <Route 
+              path="/dashboard" 
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              } 
+            />
+
             <Route path="/search" element={<SearchPage />} />
-            {/* La nouvelle route pour les détails d'une offre */}
-            <Route path="/job/:id" element={<JobDetailPage />} /> 
+            
+            <Route 
+              path="/job/:id" 
+              element={
+                <ProtectedRoute>
+                  <JobDetailPage />
+                </ProtectedRoute>
+              } 
+            />
           </Routes>
         </main>
 
