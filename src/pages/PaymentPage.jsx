@@ -1,42 +1,68 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-const PaymentPage = () => {
-  const location = useLocation();
-  const { plan } = location.state || {}; // Récupère les infos du plan choisi
+// Import des composants de structure
+import Header from './components/Header';
+import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute';
 
-  if (!plan) {
-    return <div className="text-center py-12">Aucun plan sélectionné. Veuillez retourner à la page des offres.</div>;
-  }
+// Import de toutes nos pages
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import DashboardPage from './pages/DashboardPage';
+import SearchPage from './pages/SearchPage';
+import JobDetailPage from './pages/JobDetailPage';
+import PricingPage from './pages/PricingPage';
+import PaymentPage from './pages/PaymentPage';
 
+function App() {
   return (
-    <div className="container mx-auto py-12">
-      <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-center mb-2">Finalisez votre paiement</h1>
-        <p className="text-center text-gray-600 mb-8">Vous avez choisi le plan : <span className="font-bold text-blue-600">{plan.name}</span></p>
+    <Router>
+      <div className="flex flex-col min-h-screen bg-gray-100">
+        <Header />
         
-        <div className="bg-gray-100 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold mb-4">Instructions pour le virement bancaire</h2>
-          <p className="mb-2">Veuillez effectuer un virement de <strong className="text-lg">{plan.price}</strong> sur le compte suivant :</p>
-          <div className="bg-white p-4 rounded-md border">
-            <p><strong>Nom du bénéficiaire :</strong> [Votre Nom Complet ou Nom de l'Entreprise]</p>
-            <p><strong>RIB :</strong> [Votre Numéro de RIB complet]</p>
-            <p><strong>Banque :</strong> [Nom de votre Banque]</p>
-          </div>
-          <p className="mt-4 font-semibold text-red-600">
-            IMPORTANT : Veuillez inclure votre adresse email dans le motif du virement pour que nous puissions vous identifier.
-          </p>
-        </div>
+        <main className="flex-grow">
+          <Routes>
+            {/* Routes publiques */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/search" element={<SearchPage />} />
 
-        <div className="mt-8">
-          <h2 className="text-xl font-semibold mb-4">Après le virement</h2>
-          <p>Une fois le virement effectué, veuillez nous envoyer une capture d'écran ou une photo de la preuve de paiement à l'adresse email suivante :</p>
-          <p className="text-center font-bold text-blue-600 my-4 text-lg">contact@emploiglobal.com</p>
-          <p>Votre compte sera activé manuellement dans un délai de 24h après réception de la preuve.</p>
-        </div>
+            {/* Routes protégées */}
+            <Route 
+              path="/dashboard" 
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/job/:id" 
+              element={
+                <ProtectedRoute>
+                  <JobDetailPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/payment" 
+              element={
+                <ProtectedRoute>
+                  <PaymentPage />
+                </ProtectedRoute>
+              } 
+            />
+          </Routes>
+        </main>
+
+        <Footer />
       </div>
-    </div>
+    </Router>
   );
-};
+}
 
-export default PaymentPage;
+export default App;
