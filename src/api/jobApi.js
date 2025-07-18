@@ -8,17 +8,15 @@ const getAllJobs = (params = {}) => {
   return axios.get(API_URL, { params });
 };
 
-const jobApi = {
-  getAllJobs,
-};
-// ... (code existant) ...
+// Fonction pour récupérer une seule offre par son ID
 const getJobById = (id) => {
   return axios.get(API_URL + id);
 };
 
+// On exporte un seul objet contenant les deux fonctions
 const jobApi = {
   getAllJobs,
-  getJobById, // On ajoute la nouvelle fonction
+  getJobById,
 };
 
 export default jobApi;
