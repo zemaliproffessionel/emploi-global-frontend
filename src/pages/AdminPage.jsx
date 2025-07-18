@@ -1,38 +1,42 @@
 import React, { useState, useEffect } from 'react';
-// Nous créerons adminApi juste après
-// import adminApi from '../api/adminApi'; 
+import adminApi from '../api/adminApi'; // On importe notre API admin
 
 const AdminPage = () => {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const fetchPayments = async () => {
+    try {
+      setLoading(true);
+      const response = await adminApi.getPayments();
+      setPayments(response.data);
+      setLoading(false);
+    } catch (error) {
+      setError('Impossible de charger les paiements.');
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchPayments = async () => {
-      try {
-        // const response = await adminApi.getPayments();
-        // setPayments(response.data);
-        
-        // Données de test en attendant de créer adminApi
-        const testData = [
-          { id: '123', email: 'test1@email.com', amount: '2900', plan_name: 'Découverte', status: 'pending', created_at: new Date().toISOString() },
-          { id: '456', email: 'test2@email.com', amount: '3900', plan_name: 'Carrière', status: 'completed', created_at: new Date().toISOString() },
-        ];
-        setPayments(testData);
-
-      } catch (error) {
-        console.error("Erreur:", error);
-      }
-      setLoading(false);
-    };
     fetchPayments();
   }, []);
 
-  const handleValidate = (paymentId) => {
-    alert(`Validation du paiement ${paymentId}. Cette action activera l'abonnement.`);
-    // Logique pour appeler le backend et mettre à jour l'état
+  const handleValidate = async (paymentId) => {
+    if (window.confirm(`Êtes-vous sûr de vouloir valider le paiement ${paymentId} ?`)) {
+      try {
+        await adminApi.validatePayment(paymentId);
+        alert('Paiement validé avec succès !');
+        // On rafraîchit la liste pour voir le changement de statut
+        fetchPayments(); 
+      } catch (error) {
+        alert('Erreur lors de la validation du paiement.');
+      }
+    }
   };
 
-  if (loading) return <p>Chargement...</p>;
+  if (loading) return <p className="text-center py-12">Chargement des paiements...</p>;
+  if (error) return <p className="text-center py-12 text-red-500">{error}</p>;
 
   return (
     <div className="container mx-auto py-8">
@@ -43,15 +47,15 @@ const AdminPage = () => {
           <table className="min-w-full bg-white">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b">Email Utilisateur</th>
-                <th className="py-2 px-4 border-b">Plan</th>
-                <th className="py-2 px-4 border-b">Montant</th>
-                <th className="py-2 px-4 border-b">Statut</th>
-                <th className="py-2 px-4 border-b">Action</th>
+                <th className="py-2 px-4 border-b text-left">Email Utilisateur</th>
+                <th className="py-2 px-4 border-b text-left">Plan</th>
+                <th className="py-2 px-4 border-b text-left">Montant</th>
+                <th className="py-2 px-4 border-b text-left">Statut</th>
+                <th className="py-2 px-4 border-b text-left">Action</th>
               </tr>
             </thead>
             <tbody>
-              {payments.map(p => (
+              {payments.length > 0 ? payments.map(p => (
                 <tr key={p.id}>
                   <td className="py-2 px-4 border-b">{p.email}</td>
                   <td className="py-2 px-4 border-b">{p.plan_name}</td>
@@ -69,7 +73,11 @@ const AdminPage = () => {
                     )}
                   </td>
                 </tr>
-              ))}
+              )) : (
+                <tr>
+                  <td colSpan="5" className="text-center py-4">Aucun paiement à afficher.</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
