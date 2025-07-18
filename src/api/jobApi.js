@@ -11,5 +11,14 @@ const getAllJobs = (params = {}) => {
 const jobApi = {
   getAllJobs,
 };
+// ... (code existant) ...
+const getJobById = (id) => {
+  return axios.get(API_URL + id);
+};
+
+const jobApi = {
+  getAllJobs,
+  getJobById, // On ajoute la nouvelle fonction
+};
 
 export default jobApi;
