@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/users/';
+const API_URL = 'https://emploi-global-backend.onrender.com/api/users/';
 
 // Fonction pour l'inscription (inchangée )
 const register = (email, password) => {
