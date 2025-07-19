@@ -35,7 +35,7 @@ const FeaturedJobs = () => {
           {jobs.map((job) => (
             <JobCard 
               key={job.id}
-              jobId={job.id} // <-- LIGNE MISE À JOUR
+              jobId={job.id}
               title={job.title}
               company={job.company}
               location={job.location}
@@ -48,81 +48,4 @@ const FeaturedJobs = () => {
   );
 };
 
-export default FeaturedJobs;```
-4.  Cliquez sur **"Commit changes"**.
-
-**Action de correction pour `SearchPage.jsx` :**
-
-1.  Allez dans le dossier `src/pages`.
-2.  Ouvrez `SearchPage.jsx` et cliquez sur l'icône "crayon".
-3.  Remplacez **tout le contenu** par le code ci-dessous (ici aussi, on ajoute `jobId={job.id}`) :
-
-```jsx
-import React, { useState, useEffect } from 'react';
-import jobApi from '../api/jobApi';
-import JobCard from '../components/JobCard';
-
-const SearchPage = () => {
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [filters, setFilters] = useState({ title: '', country: '' });
-
-  const performSearch = async () => {
-    setLoading(true);
-    try {
-      const response = await jobApi.getAllJobs(filters);
-      setJobs(response.data);
-    } catch (error) {
-      console.error("Erreur lors de la recherche :", error);
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    performSearch();
-  }, []);
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters(prev => ({ ...prev, [name]: value }));
-  };
-  
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    performSearch();
-  };
-
-  return (
-    <div className="container mx-auto py-8">
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-          {/* ... (le formulaire de filtre ne change pas) ... */}
-        </form>
-      </div>
-      <div>
-        {loading ? (
-          <p className="text-center">Chargement...</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {jobs.length > 0 ? (
-              jobs.map(job => (
-                <JobCard
-                  key={job.id}
-                  jobId={job.id} // <-- LIGNE MISE À JOUR
-                  title={job.title}
-                  company={job.company}
-                  location={job.location}
-                  countryFlag={job.country === 'France' ? '🇫🇷' : job.country === 'Canada' ? '🇨🇦' : '🇪🇸'}
-                />
-              ))
-            ) : (
-              <p className="col-span-full text-center">Aucune offre ne correspond à votre recherche.</p>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default SearchPage;
+export default FeaturedJobs;
