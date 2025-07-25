@@ -1,97 +1,110 @@
 import React, { useState, useEffect } from 'react';
-import jobApi from '../api/jobApi';
+import { useSearchParams } from 'react-router-dom';
 import JobCard from '../components/JobCard';
+import jobApi from '../api/jobApi';
 
 const SearchPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [filters, setFilters] = useState({ title: '', country: '' });
+  const [error, setError] = useState('');
 
-  // Fonction pour lancer la recherche
-  const performSearch = async () => {
+  // États pour les champs du formulaire
+  const [query, setQuery] = useState(searchParams.get('query') || '');
+  const [country, setCountry] = useState(searchParams.get('country') || 'France');
+
+  const fetchJobs = async (params) => {
     setLoading(true);
+    setError('');
     try {
-      const response = await jobApi.getAllJobs(filters);
+      const response = await jobApi.getAllJobs(params);
       setJobs(response.data);
-    } catch (error) {
-      console.error("Erreur lors de la recherche :", error);
+    } catch (err) {
+      setError('Une erreur est survenue lors de la recherche.');
     }
     setLoading(false);
   };
 
-  // Lancer une recherche vide au premier chargement de la page
+  // Lancer la recherche au premier chargement de la page si des paramètres sont dans l'URL
   useEffect(() => {
-    performSearch();
-  }, []);
+    const initialParams = {
+      query: searchParams.get('query'),
+      country: searchParams.get('country')
+    };
+    if (initialParams.country) { // On ne cherche que si un pays est défini
+      fetchJobs(initialParams);
+    }
+  }, []); // Ne s'exécute qu'une fois
 
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters(prev => ({ ...prev, [name]: value }));
-  };
-  
-  const handleSearchSubmit = (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    performSearch();
+    const params = { query, country };
+    setSearchParams(params); // Met à jour l'URL
+    fetchJobs(params); // Lance la recherche avec les bons paramètres
   };
 
   return (
-    <div className="container mx-auto py-8">
-      {/* Section des filtres */}
+    <div className="container mx-auto p-6">
       <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-          <div className="flex flex-col">
-            <label htmlFor="title" className="font-semibold mb-1">Métier ou mot-clé</label>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              value={filters.title}
-              onChange={handleFilterChange}
-              placeholder="Développeur, Marketing..."
-              className="p-2 border rounded-md"
-            />
+        <form onSubmit={handleSearch}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-2">
+              <label htmlFor="query" className="block text-sm font-medium text-gray-700">Métier ou mot-clé</label>
+              <input
+                type="text"
+                id="query"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Ex: Développeur, Marketing..."
+              />
+            </div>
+            <div>
+              <label htmlFor="country" className="block text-sm font-medium text-gray-700">Pays</label>
+              <select
+                id="country"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="France">France</option>
+                <option value="Canada">Canada</option>
+                <option value="Espagne">Espagne</option>
+                <option value="Portugal">Portugal</option>
+                <option value="Allemagne">Allemagne</option>
+                <option value="Italie">Italie</option>
+                <option value="Belgique">Belgique</option>
+              </select>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="country" className="font-semibold mb-1">Pays</label>
-            <select
-              name="country"
-              id="country"
-              value={filters.country}
-              onChange={handleFilterChange}
-              className="p-2 border rounded-md"
-            >
-              <option value="">Tous les pays</option>
-              <option value="France">France</option>
-              <option value="Canada">Canada</option>
-              <option value="Espagne">Espagne</option>
-            </select>
+          <div className="text-right mt-4">
+            <button type="submit" className="bg-blue-600 text-white font-bold py-2 px-6 rounded-md hover:bg-blue-700">
+              Rechercher
+            </button>
           </div>
-          <button type="submit" className="bg-blue-600 text-white font-bold p-2 rounded-md hover:bg-blue-700 h-10">
-            {loading ? 'Recherche...' : 'Rechercher'}
-          </button>
         </form>
       </div>
 
-      {/* Section des résultats */}
       <div>
-        {loading ? (
-          <p className="text-center">Chargement...</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {jobs.length > 0 ? (
-              jobs.map(job => (
+        {loading && <p className="text-center">Recherche en cours...</p>}
+        {error && <p className="text-center text-red-500">{error}</p>}
+        {!loading && !error && (
+          jobs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {jobs.map(job => (
                 <JobCard
                   key={job.id}
+                  jobId={job.id}
                   title={job.title}
                   company={job.company}
                   location={job.location}
                   countryFlag={job.country === 'France' ? '🇫🇷' : job.country === 'Canada' ? '🇨🇦' : '🇪🇸'}
                 />
-              ))
-            ) : (
-              <p className="col-span-full text-center">Aucune offre ne correspond à votre recherche.</p>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-500">Aucune offre ne correspond à votre recherche.</p>
+          )
         )}
       </div>
     </div>
@@ -99,3 +112,4 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
+                  
