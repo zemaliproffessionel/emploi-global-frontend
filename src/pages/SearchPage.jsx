@@ -92,13 +92,17 @@ const SearchPage = () => {
         {error && <p className="text-center text-red-500">{error}</p>}
         {!loading && !error && (
           jobs.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* ==================== LIGNE CORRIGÉE ==================== */}
-              {jobs.map(job => (
-                <JobCard key={job.id} job={job} />
-              ))}
-              {/* ======================================================== */}
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {jobs.map(job => (
+    <JobCard
+      key={job.id}
+      id={job.id}
+      title={job.title}
+      company={job.company}
+      location={job.location}
+    />
+  ))}
+</div>
           ) : (
             <p className="text-center text-gray-500">Aucune offre ne correspond à votre recherche.</p>
           )
