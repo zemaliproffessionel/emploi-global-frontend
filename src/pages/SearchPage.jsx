@@ -11,7 +11,7 @@ const SearchPage = () => {
 
   // États pour les champs du formulaire
   const [query, setQuery] = useState(searchParams.get('query') || '');
-  const [country, setCountry] = useState(searchParams.get('country') || 'France');
+  const [country, setCountry] = useState(search_params.get('country') || 'France');
 
   const fetchJobs = async (params) => {
     setLoading(true);
@@ -45,6 +45,7 @@ const SearchPage = () => {
 
   return (
     <div className="container mx-auto p-6">
+      {/* Le formulaire de recherche reste identique */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-8">
         <form onSubmit={handleSearch}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -85,22 +86,18 @@ const SearchPage = () => {
         </form>
       </div>
 
+      {/* Affichage des résultats */}
       <div>
         {loading && <p className="text-center">Recherche en cours...</p>}
         {error && <p className="text-center text-red-500">{error}</p>}
         {!loading && !error && (
           jobs.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* ==================== LIGNE CORRIGÉE ==================== */}
               {jobs.map(job => (
-                <JobCard
-                  key={job.id}
-                  jobId={job.id}
-                  title={job.title}
-                  company={job.company}
-                  location={job.location}
-                  countryFlag={job.country === 'France' ? '🇫🇷' : job.country === 'Canada' ? '🇨🇦' : '🇪🇸'}
-                />
+                <JobCard key={job.id} job={job} />
               ))}
+              {/* ======================================================== */}
             </div>
           ) : (
             <p className="text-center text-gray-500">Aucune offre ne correspond à votre recherche.</p>
@@ -112,4 +109,4 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-                  
+  
