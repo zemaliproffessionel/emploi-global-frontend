@@ -12,7 +12,8 @@ import JobDetailPage from './pages/JobDetailPage';
 import PricingPage from './pages/PricingPage';
 import PaymentPage from './pages/PaymentPage';
 import AdminPage from './pages/AdminPage';
-import FAQPage from './pages/FAQPage'; // Import de la nouvelle page
+import FAQPage from './pages/FAQPage';
+import TermsPage from './pages/TermsPage'; // Import de la nouvelle page
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/search" element={<SearchPage />} />
-            <Route path="/faq" element={<FAQPage />} /> {/* Ajout de la route FAQ */}
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/terms" element={<TermsPage />} /> {/* Ajout de la route Terms */}
             <Route path="/admin" element={<AdminPage />} />
 
             {/* Routes protégées */}
