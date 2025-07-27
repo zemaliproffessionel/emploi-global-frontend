@@ -1,12 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-// Import des composants de structure
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
-
-// Import de toutes nos pages
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -15,14 +11,14 @@ import SearchPage from './pages/SearchPage';
 import JobDetailPage from './pages/JobDetailPage';
 import PricingPage from './pages/PricingPage';
 import PaymentPage from './pages/PaymentPage';
-import AdminPage from './pages/AdminPage'; // On importe la nouvelle page Admin
+import AdminPage from './pages/AdminPage';
+import FAQPage from './pages/FAQPage'; // Import de la nouvelle page
 
 function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen bg-gray-100">
         <Header />
-        
         <main className="flex-grow">
           <Routes>
             {/* Routes publiques */}
@@ -31,38 +27,15 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/search" element={<SearchPage />} />
-            
-            {/* Route pour l'admin (pour l'instant publique pour le test) */}
+            <Route path="/faq" element={<FAQPage />} /> {/* Ajout de la route FAQ */}
             <Route path="/admin" element={<AdminPage />} />
 
-            {/* Routes protégées pour les utilisateurs connectés */}
-            <Route 
-              path="/dashboard" 
-              element={
-                <ProtectedRoute>
-                  <DashboardPage />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/job/:id" 
-              element={
-                <ProtectedRoute>
-                  <JobDetailPage />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/payment" 
-              element={
-                <ProtectedRoute>
-                  <PaymentPage />
-                </ProtectedRoute>
-              } 
-            />
+            {/* Routes protégées */}
+            <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+            <Route path="/job/:id" element={<ProtectedRoute><JobDetailPage /></ProtectedRoute>} />
+            <Route path="/payment" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
           </Routes>
         </main>
-
         <Footer />
       </div>
     </Router>
