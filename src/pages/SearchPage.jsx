@@ -3,32 +3,26 @@ import { useSearchParams } from 'react-router-dom';
 import JobCard from '../components/JobCard';
 import jobApi from '../api/jobApi';
 
-// Dictionnaire de traduction pour les pays
 const countryTranslation = {
-  'France': 'France',
-  'Canada': 'Canada',
-  'Espagne': 'Spain',
-  'Portugal': 'Portugal',
-  'Allemagne': 'Germany',
-  'Italie': 'Italy',
-  'Belgique': 'Belgium',
+  'France': 'France', 'Canada': 'Canada', 'Espagne': 'Spain',
+  'Portugal': 'Portugal', 'Allemagne': 'Germany', 'Italie': 'Italy', 'Belgique': 'Belgium',
 };
 
 const SearchPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // On utilise les noms français pour l'affichage dans le formulaire
   const [query, setQuery] = useState(searchParams.get('query') || '');
-  const [country, setCountry] = useState(searchParams.get('country') || 'Tous les pays');
+  const [country, setCountry] = useState('Tous les pays');
 
-  const fetchJobs = async (params) => {
+  const fetchJobs = async (searchQuery, searchCountry) => {
     setLoading(true);
     setError('');
     try {
-      const response = await jobApi.getAllJobs(params);
+      const translatedCountry = searchCountry === 'Tous les pays' ? '' : countryTranslation[searchCountry] || '';
+      const response = await jobApi.getAllJobs({ query: searchQuery, country: translatedCountry });
       setJobs(response.data);
     } catch (err) {
       setError('Une erreur est survenue lors de la recherche.');
@@ -38,32 +32,21 @@ const SearchPage = () => {
 
   useEffect(() => {
     const initialQuery = searchParams.get('query') || '';
-    const initialCountry = searchParams.get('country') || 'Tous les pays';
-        
-    const countryToSearch = countryTranslation[initialCountry] || '';
-        
-    fetchJobs({ query: initialQuery, country: countryToSearch });
+    const initialCountry = 'Tous les pays'; // Toujours commencer par tout afficher
+    setQuery(initialQuery);
+    setCountry(initialCountry);
+    fetchJobs(initialQuery, initialCountry);
   }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
-        
-    // On traduit le nom du pays en anglais avant de l'envoyer au backend
-    const countryToSearch = countryTranslation[country] || '';
-        
-    const params = { query, country: countryToSearch };
-        
-    // On met à jour l'URL avec les vrais termes de recherche (anglais pour le pays)
-    setSearchParams({ query, country: countryToSearch });
-        
-    fetchJobs(params);
+    fetchJobs(query, country);
   };
 
   return (
     <div className="container mx-auto p-6">
       <div className="bg-white p-6 rounded-lg shadow-md mb-8">
         <form onSubmit={handleSearch}>
-          {/* ... (le formulaire reste identique) ... */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-2">
               <label htmlFor="query" className="block text-sm font-medium text-gray-700">Métier ou mot-clé</label>
@@ -104,11 +87,12 @@ const SearchPage = () => {
       </div>
 
       <div>
-        {loading && <p className="text-center">Recherche en cours...</p>}
+        {loading && <p className="text-center text-lg font-semibold">Recherche en cours...</p>}
         {error && <p className="text-center text-red-500">{error}</p>}
         {!loading && !error && (
           jobs.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* ==================== LA PARTIE MANQUANTE ÉTAIT ICI ==================== */}
               {jobs.map(job => (
                 <JobCard
                   key={job.id}
@@ -118,6 +102,7 @@ const SearchPage = () => {
                   location={job.location}
                 />
               ))}
+              {/* ======================================================================= */}
             </div>
           ) : (
             <p className="text-center text-gray-500">Aucune offre ne correspond à votre recherche.</p>
@@ -129,4 +114,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-                    
