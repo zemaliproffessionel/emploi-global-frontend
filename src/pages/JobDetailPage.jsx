@@ -30,24 +30,20 @@ const JobDetailPage = () => {
     <div className="bg-white">
       <div className="container mx-auto p-6 md:p-12">
         <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-          {/* En-tête de l'offre */}
           <h1 className="text-3xl font-bold text-brand-gray-dark">{job.title}</h1>
           <p className="text-xl text-brand-gray mt-2">{job.company}</p>
           <p className="text-md text-gray-500 mb-6">{job.location}</p>
 
-          {/* Bouton de postulation */}
           <a 
             href={job.url} 
             target="_blank" 
-            rel="noopener noreferrer" // <-- L'ATTRIBUT MAGIQUE !
+            rel="noopener noreferrer" // On s'assure que c'est bien là
             className="inline-block w-full text-center bg-brand-orange text-white font-bold py-3 px-6 rounded-lg hover:bg-orange-600 transition-colors duration-300 mb-8"
           >
             Postuler sur le site d'origine
           </a>
 
-          {/* Description de l'offre */}
           <h2 className="text-2xl font-bold text-brand-gray-dark mb-4">Description du poste</h2>
-          {/* La classe 'prose' améliore la lisibilité du texte */}
           <div 
             className="prose max-w-none text-brand-gray" 
             dangerouslySetInnerHTML={{ __html: job.description || "Description non disponible." }} 
