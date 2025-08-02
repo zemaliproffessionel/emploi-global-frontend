@@ -39,7 +39,7 @@ const SearchPage = () => {
   return (
     <div className="container mx-auto p-6">
       {/* Formulaire de recherche */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+      <div className="bg-white p-8 rounded-xl shadow-xl mb-8 border border-gray-100">
         <form onSubmit={handleSearch}>
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
@@ -48,14 +48,14 @@ const SearchPage = () => {
                 placeholder="Rechercher un emploi..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 hover:border-gray-300"
               />
             </div>
             <div className="flex-1">
               <select
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 hover:border-gray-300"
               >
                 <option value="Tous les pays">Tous les pays</option>
                 <option value="France">France</option>
@@ -67,7 +67,7 @@ const SearchPage = () => {
             </div>
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Rechercher
             </button>
