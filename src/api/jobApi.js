@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// L'adresse de notre backend
-const API_URL = 'https://emploi-global-backend.onrender.com/api/jobs/';
+// L'adresse de notre backend (utilise le proxy Vite en développement)
+const API_URL = '/api/jobs/';
 
 // Fonction pour récupérer toutes les offres (avec filtres optionnels )
 const getAllJobs = (params = {}) => {
