@@ -18,12 +18,12 @@ const JobCard = ({ id, title, company, location }) => {
         <p className="text-gray-500 text-sm">{location}</p>
       </div>
       <div className="p-6 bg-gray-50">
-        <Link 
-          to={`/job/${id}`} 
-          className="w-full text-center block bg-brand-orange text-white font-bold py-2 px-4 rounded-md hover:bg-orange-600 transition-colors duration-300"
-        >
-          Voir les détails
-        </Link>
+            <Link 
+              to={`/job/${id}`} 
+              className="w-full text-center block bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-3 px-6 rounded-lg hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              Voir les détails
+            </Link>
       </div>
     </div>
   );
