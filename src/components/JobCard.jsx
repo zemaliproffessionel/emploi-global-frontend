@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// On accepte les propriétés individuelles (id, title, company, location)
-// C'est la version qui correspond EXACTEMENT à ce que SearchPage.jsx envoie.
+// Ce composant accepte les propriétés individuelles : id, title, company, location.
+// C'est la version qui correspond exactement à ce que la page de recherche (SearchPage.jsx) lui envoie.
 const JobCard = ({ id, title, company, location }) => {
   
-  // Si le titre n'est pas défini, on n'affiche rien pour éviter les erreurs
+  // Sécurité : si pour une raison quelconque une offre n'a pas de titre, on ne l'affiche pas pour éviter de faire planter la page.
   if (!title) {
     return null;
   }
@@ -18,7 +18,6 @@ const JobCard = ({ id, title, company, location }) => {
         <p className="text-gray-500 text-sm">{location}</p>
       </div>
       <div className="p-6 bg-gray-50">
-        {/* On s'assure que l'ID est bien passé au lien */}
         <Link 
           to={`/job/${id}`} 
           className="w-full text-center block bg-brand-orange text-white font-bold py-2 px-4 rounded-md hover:bg-orange-600 transition-colors duration-300"
@@ -31,4 +30,3 @@ const JobCard = ({ id, title, company, location }) => {
 };
 
 export default JobCard;
-```5.  **Validez** avec "Commit changes".
