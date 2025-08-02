@@ -15,35 +15,53 @@ const FooterLogo = () => (
 
 const Footer = () => {
   return (
-    <footer className="bg-brand-gray-dark text-gray-300">
+    <footer className="bg-gradient-to-r from-gray-900 to-gray-800 text-gray-300">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           
           {/* Colonne 1: Logo et description */}
           <div className="md:col-span-2">
             <FooterLogo />
-            <p className="mt-4 max-w-md">
+            <p className="mt-4 max-w-md text-gray-400 leading-relaxed">
               Votre passerelle vers des opportunités de carrière internationales. Nous aidons les talents algériens à réaliser leurs projets professionnels à l'étranger.
             </p>
           </div>
 
           {/* Colonne 2: Liens rapides */}
           <div>
-            <h3 className="font-bold text-white uppercase mb-4">Liens Rapides</h3>
-            <ul className="space-y-2">
-              <li><Link to="/search" className="hover:text-brand-orange transition-colors">Rechercher une offre</Link></li>
-              <li><Link to="/pricing" className="hover:text-brand-orange transition-colors">Nos Abonnements</Link></li>
-              <li><Link to="/dashboard" className="hover:text-brand-orange transition-colors">Mon Compte</Link></li>
+            <h3 className="font-bold text-white uppercase mb-4 text-sm tracking-wider">Liens Rapides</h3>
+            <ul className="space-y-3">
+              <li><Link to="/search" className="hover:text-orange-500 transition-colors duration-300 flex items-center group">
+                <span className="w-2 h-2 bg-orange-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                Rechercher une offre
+              </Link></li>
+              <li><Link to="/pricing" className="hover:text-orange-500 transition-colors duration-300 flex items-center group">
+                <span className="w-2 h-2 bg-orange-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                Nos Abonnements
+              </Link></li>
+              <li><Link to="/dashboard" className="hover:text-orange-500 transition-colors duration-300 flex items-center group">
+                <span className="w-2 h-2 bg-orange-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                Mon Compte
+              </Link></li>
             </ul>
           </div>
 
           {/* Colonne 3: Légal */}
           <div>
-            <h3 className="font-bold text-white uppercase mb-4">Légal</h3>
-            <ul className="space-y-2">
-              <li><Link to="/terms" className="hover:text-brand-orange transition-colors">Conditions d'utilisation</Link></li>
-              <li><Link to="/privacy" className="hover:text-brand-orange transition-colors">Politique de confidentialité</Link></li>
-              <li><Link to="/faq" className="hover:text-brand-orange transition-colors">FAQ</Link></li>
+            <h3 className="font-bold text-white uppercase mb-4 text-sm tracking-wider">Légal</h3>
+            <ul className="space-y-3">
+              <li><Link to="/terms" className="hover:text-orange-500 transition-colors duration-300 flex items-center group">
+                <span className="w-2 h-2 bg-orange-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                Conditions d'utilisation
+              </Link></li>
+              <li><Link to="/privacy" className="hover:text-orange-500 transition-colors duration-300 flex items-center group">
+                <span className="w-2 h-2 bg-orange-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                Politique de confidentialité
+              </Link></li>
+              <li><Link to="/faq" className="hover:text-orange-500 transition-colors duration-300 flex items-center group">
+                <span className="w-2 h-2 bg-orange-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                FAQ
+              </Link></li>
             </ul>
           </div>
 
