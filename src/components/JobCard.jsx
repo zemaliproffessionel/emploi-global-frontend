@@ -2,8 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 // On accepte les propriétés individuelles (id, title, company, location)
+// C'est la version qui correspond EXACTEMENT à ce que SearchPage.jsx envoie.
 const JobCard = ({ id, title, company, location }) => {
-  // Il n'y a plus besoin d'extraire, on les utilise directement
+  
+  // Si le titre n'est pas défini, on n'affiche rien pour éviter les erreurs
+  if (!title) {
+    return null;
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300">
@@ -26,3 +31,4 @@ const JobCard = ({ id, title, company, location }) => {
 };
 
 export default JobCard;
+```5.  **Validez** avec "Commit changes".
