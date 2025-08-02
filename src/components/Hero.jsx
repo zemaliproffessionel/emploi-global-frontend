@@ -13,9 +13,9 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative bg-cover bg-center text-white" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop' )" }}>
+    <section className="relative bg-cover bg-center text-white" style={{ backgroundImage: "url('/hero-background.jpg')" }}>
       {/* Filtre sombre pour la lisibilité du texte */}
-      <div className="absolute inset-0 bg-black opacity-50"></div>
+      <div className="absolute inset-0 bg-black opacity-60"></div>
       
       <div className="relative container mx-auto px-6 py-32 text-center">
         <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4">
