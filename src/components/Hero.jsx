@@ -26,18 +26,18 @@ const Hero = () => {
         </p>
 
         {/* Barre de recherche stylisée */}
-        <form onSubmit={handleSearch} className="bg-white rounded-lg shadow-lg p-4 max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+        <form onSubmit={handleSearch} className="bg-white rounded-xl shadow-2xl p-6 max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 items-center backdrop-blur-sm">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Quel métier ?"
-            className="w-full px-4 py-3 border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-orange"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 hover:border-gray-300"
           />
           <select
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            className="w-full px-4 py-3 border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-orange"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 hover:border-gray-300"
           >
             <option value="">Quel pays ?</option>
             <option value="France">France</option>
@@ -45,7 +45,7 @@ const Hero = () => {
             <option value="Espagne">Espagne</option>
             {/* Ajoutez d'autres pays si nécessaire */}
           </select>
-          <button type="submit" className="w-full bg-brand-orange text-white font-bold py-3 px-6 rounded-md hover:bg-orange-600 transition-colors duration-300">
+          <button type="submit" className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-3 px-6 rounded-lg hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
             Rechercher
           </button>
         </form>
