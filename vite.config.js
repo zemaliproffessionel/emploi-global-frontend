@@ -10,6 +10,7 @@ export default defineConfig({
         target: 'https://emploi-global-backend.onrender.com',
         changeOrigin: true,
         secure: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
       }
     }
   }
