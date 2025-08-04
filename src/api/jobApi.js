@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
 // L'adresse de notre backend
 const API_BASE_URL = import.meta.env.PROD
-  ? 'https://emploi-global-backend.onrender.com/api'
-  : '/api';
+  ? "https://emploi-global-backend.onrender.com/api"
+  : "/api";
 
 // Fonction pour récupérer toutes les offres (avec filtres optionnels )
 const getAllJobs = (params = {}) => {
@@ -15,10 +15,16 @@ const getJobById = (id) => {
   return axios.get(`${API_BASE_URL}/jobs/${id}`);
 };
 
-// On exporte un seul objet contenant les deux fonctions
+// Fonction pour récupérer les pays uniques disponibles
+const getUniqueCountries = () => {
+  return axios.get(`${API_BASE_URL}/jobs/countries`);
+};
+
+// On exporte un seul objet contenant toutes les fonctions
 const jobApi = {
   getAllJobs,
   getJobById,
+  getUniqueCountries,
 };
 
 export default jobApi;
