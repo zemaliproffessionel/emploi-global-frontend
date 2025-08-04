@@ -67,9 +67,10 @@ const SearchPage = () => {
             </div>
             <button
               type="submit"
-              className="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              disabled={loading}
+              className="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
-              Rechercher
+              {loading ? 'Recherche...' : 'Rechercher'}
             </button>
           </div>
         </form>
@@ -77,15 +78,49 @@ const SearchPage = () => {
 
       {/* Affichage des résultats */}
       <div>
-        {loading && <p className="text-center text-gray-600">Chargement...</p>}
-        {error && <p className="text-center text-red-600">{error}</p>}
+        {loading && (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+            <span className="ml-3 text-gray-600">Recherche en cours...</span>
+          </div>
+        )}
+        
+        {error && (
+          <div className="text-center py-12">
+            <p className="text-red-500 mb-4">{error}</p>
+            <button 
+              onClick={() => performSearch({})} 
+              className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition-colors"
+            >
+              Réessayer
+            </button>
+          </div>
+        )}
+        
         {!loading && !error && (
           jobs.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {jobs.map(job => <JobCard key={job.id} id={job.id} title={job.title} company={job.company} location={job.location} />)}
-            </div>
+            <>
+              <div className="mb-4 text-gray-600">
+                {jobs.length} offre{jobs.length > 1 ? 's' : ''} trouvée{jobs.length > 1 ? 's' : ''}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {jobs.map(job => <JobCard key={job.id} id={job.id} title={job.title} company={job.company} location={job.location} />)}
+              </div>
+            </>
           ) : (
-            <p className="text-center text-gray-600">Aucune offre ne correspond à votre recherche.</p>
+            <div className="text-center py-12">
+              <p className="text-gray-600 mb-4">Aucune offre ne correspond à votre recherche.</p>
+              <button 
+                onClick={() => {
+                  setQuery('');
+                  setCountry('Tous les pays');
+                  performSearch({});
+                }} 
+                className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition-colors"
+              >
+                Voir toutes les offres
+              </button>
+            </div>
           )
         )}
       </div>
