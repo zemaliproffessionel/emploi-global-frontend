@@ -149,29 +149,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {jobs.map(job => <JobCard key={job.id} id={job.id} title={job.title} company={job.company} location={job.location} />)}
-              </div>
-            </>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-600 mb-4">Aucune offre ne correspond à votre recherche.</p>
-              <button 
-                onClick={() => {
-                  setQuery('');
-                  setCountry('Tous les pays');
-                  performSearch({});
-                }} 
-                className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition-colors"
-              >
-                Voir toutes les offres
-              </button>
-            </div>
-          )
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default SearchPage;
